@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/form_basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:15 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>H+ 后台主题UI框架 - 基本表单</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+
+    <link rel="shortcut icon" href="favicon.ico"> <link href="css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/style.min862f.css?v=4.1.0" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>账户信息</h5>
+          
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-sm-12"> 	
+							<div class="form-group">
+									<label>账户余额：</label><label id="amount">--</label>元
+									
+							</div>
+                            <div id="marginRegisterDiv" style="display: none;">
+                             <button data-toggle="button" class="btn btn-primary btn-outline" type="button" onclick="window.location.href='marginRegister.html'">开户</button>
+                            </div>
+							<div id="optDiv" style="display: none;">
+                                   
+							        <button data-toggle="button" class="btn btn-primary btn-outline" type="button">充值</button>
+									<button data-toggle="button" class="btn btn-primary btn-outline" type="button">提现</button>
+									<button data-toggle="button" class="btn btn-primary btn-outline" type="button" onclick="window.location.href='transForm.html'">转账</button>
+							</div>
+						</div>
+                         
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      <div class="row">
+	  <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>交易记录</h5>
+                    </div>
+                    <div class="ibox-content">
+
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>时间</th>
+                                    <th>说明</th>
+                                    <th>金额</th>
+									<th>状态</th>
+								
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="4" style="text-align: center;background-color: #f3f3f4">无数据</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+      </div>
+    </div>
+
+     
+    <script src="js/jquery.min.js?v=2.1.4"></script>
+    <script src="js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="js/content.min.js?v=1.0.0"></script>
+    <script src="js/plugins/iCheck/icheck.min.js"></script>
+    <script src="js/jquery.cookie.js?v=1.4.1"></script>
+    <script>
+        $(document).ready(function(){
+            $(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",});
+            getAccountByUserId();
+        });
+
+         function getAccountByUserId(){
+            var userId = $.cookie('userId') ;
+            if(userId== null ){
+                 window.location.href = "login.html" ;
+            }
+            $.ajax({
+                type: "get",
+                url: "http://localhost:8099/userAccount/getAccountByUserId/"+userId,
+                contentType: "application/json; charset=utf-8",
+                timeout: 3000,
+                cache: false,
+                success: function (data) {
+                   document.getElementById("amount").innerHTML= (data.obj==null ? 0 : data.obj.amount/100);
+                   if(data.obj==null){
+                      $("#marginRegisterDiv").show();
+                   }else{
+                        $("#optDiv").show();
+                   }
+                },
+                error: function (XmlHttpRequest, textStatus, errorThrown) {
+                    /**
+                     * 错误处理 待补充完整
+                     */
+                },
+                complete: function (XmlHttpRequest, textStatus, errorThrown) {
+                  
+                }
+            });
+         }
+    </script>
+</body>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/form_basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:15 GMT -->
+</html>
